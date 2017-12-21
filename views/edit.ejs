@@ -1,0 +1,30 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Course <%=result.name %> Edit</title>
+    </head>
+    <body>
+        <h2>Update course</h2>
+        <form action="/courses/<%=result.id%>?_method=PUT" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="<%=result.name%>"> <br />
+    
+            <label for="code">Code</label>
+            <input type="text" name="code" value="<%=result.code%>"> <br>
+    
+            <label for="image">Link to image</label> 
+            <input type="text" name="image" value="<%=result.image%>"> <br>
+            <br >
+            <label for="description">Description</label>
+            <input type="text" name="description" value="<%=result.description%>"> <br>
+    
+            <input type="submit" value="Update">
+            <input type="reset" value="Reset">
+        </form>
+        <form action="/courses/<%=result._id%>?_method=DELETE" method="POST" style="display: inline">
+            <input type="submit" value="DELETE">
+        </form>
+    </body>
+    </html>

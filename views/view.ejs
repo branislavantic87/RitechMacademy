@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <div>
+        <form action="/register" method="get">
+            <input type="submit" value="Register" />
+        </form>
+        <form action="/login" method="get">
+            <input type="submit" value="Login" />
+        </form>
+        <form action="/logout" method="get">
+        <input type="submit" value="Logout" />
+        </form>
+    </div>
+    <div>
+        <% courses.forEach((courses) => { %>
+            <p>
+                <a href="/courses/<%= courses.id %>">
+                    <%= courses.name %>
+                </a>
+            </p>
+            <% }) %>
+    </div>
+</body>
+
+</html>

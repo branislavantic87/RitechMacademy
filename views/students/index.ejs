@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <% users.forEach(e => { %>
+        <p>
+            <a href="/users/<%= e.id %>">
+                <%= e.username %>
+            </a>
+        </p>
+        <% }) %>
+
+  
+    </div>
+  </body>
+</html>
