@@ -3,46 +3,51 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
 
+// SHOW REGISTER FORM
 router.get('/register', (req, res) => {
     res.render('auth/register');
-})
-// sign up
+});
+
 router.post('/register', (req, res) => {
     var newUser = new User({
-        username: req.body.username,
-        email: req.body.email
-    })
-    User.register(newUser, req.body.password, (err, data) => {
+        email: req.body.email,
+        username: req.body.username
+    });
+    User.register(newUser, req.body.password, (err, user) => {
         if (err) {
-            console.log(err);
+            req.flash('error', err.message);
             res.redirect('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
-                res.redirect('/courses')
+                req.flash('success', 'Welcome ' + user.username + '.');
+                res.redirect('/courses');
             })
         }
     })
-})
-// login
+});
+
+// LOGIN
 router.get('/login', (req, res) => {
     res.render('auth/login');
-})
+});
 
-router.post('/login',passport.authenticate('local',  {
-    successRedirect: ('/courses'),
-    failureRedirect: ('/login'),
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/courses',
+    failureRedirect: '/login',
     failureFlash: true
 }), (req, res) => {
 
-})
+});
 
 router.get('/logout', (req, res) => {
-    if(req.isAuthenticated()){
-        req.logOut('Success', 'Logged out');
-        res.redirect('/courses')
+    if (req.isAuthenticated()) {
+        req.logout();
+        req.flash('success', 'Logged out!');
+        res.redirect('/courses');
     } else {
-        res.redirect('/courses')
+        req.flash('error', 'Noone is logged in!');
+        res.redirect('back');
     }
-})
+});
 
 module.exports = router;

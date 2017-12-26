@@ -1,57 +1,80 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/user');
+var express = require('express');
+var router = express.Router();
+var User = require('../models/user');
 
-
-/* GET users listing. */
+// INDEX
 router.get('/', (req, res) => {
-  User.find({}, (err, allUsers) => {
-    if(err) throw err.message;
-    res.render('students/index', {users: allUsers})
-  });
+	User.find({}, (err, users) => {
+		if (err) {
+			req.flash("error", err.message);
+			res.redirect("/courses");
+		} else {
+			res.render('./users/index', { users: users });
+		}
+	})
 });
 
-// show
+// NEW (register)
 
+// CREATE (auth.js)
+
+// SHOW
 router.get('/:id', (req, res) => {
-  var id = req.params.id;
-  User.findById(id, (err, data) => {
-    if(err) throw err;
-    res.render('students/show', {data: data})
-  });
+	User.findById(req.params.id, (err, foundUser) => {
+		if (err || !foundUser) {
+			req.flash('error', err.message);
+			res.redirect('/courses');
+		} else {
+			res.render('./users/show', { user: foundUser });
+		}
+	})
 });
 
-//  Edit
-
+// EDIT
 router.get('/:id/edit', (req, res) => {
-  var id = req.params.id;
-  User.findById(id, (err, data) => {
-    if(err) throw err;
-    res.render('students/edit', {data})
-  });
+	User.findById(req.params.id, (err, foundUser) => {
+		if (err) {
+			req.flash('error', err.message);
+			res.redirect('/courses');
+		} else {
+			res.render('users/edit', { user: foundUser });
+		}
+	})
 });
 
-// Update
+// UPDATE
 router.put('/:id', (req, res) => {
-  var updateUser = {
-    $set: req.body  
-  }
-req.body.image === '' ? updateUser.$unset = {image: ''} : updateUser.$set.image = req.body.image;
+	let newData = {
+		$set: {
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			email: req.body.email,
+		}
+	};
+	req.body.image === '' ? newData.$unset = { image: '' } : newData.$set.image = req.body.image;
+	User.findByIdAndUpdate(req.params.id, newData, (err, updatedUser) => {
+		if (err) {
+			req.flash('error', err.message);
+			res.redirect('/courses');
+		} else {
+			req.flash('success', 'Successfuly updated');
+            res.redirect('/courses/' + updatedUser.id);
+		}
+	})
 
-  User.findByIdAndUpdate(req.params.id, updateUser, (err, updatedUser) => {
-    if(err) throw err;
-    res.redirect('/')
-  })
-})
-// Delete 
+});
+
+// DELETE
 router.delete('/:id', (req, res) => {
-  User.findByIdAndRemove(req.params.id, (err, result) => {
-    if(err) throw err;
-    console.log('Deleted this user: ', result.firstName)
-    res.redirect('/')
-  })
+	User.findByIdAndRemove(req.params.id, (err, deleted) => {
+		if(err) {
+        	req.flash('error', err.message);
+            res.redirect('/courses');
+        } else {
+            req.flash('success', 'Successfully Removed!');
+            res.redirect('/courses');
+        }
+	})
 })
-
-
 
 module.exports = router;

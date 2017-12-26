@@ -1,18 +1,4 @@
-<html>
-
-<body>
-    <div>
-        <form action="/register" method="get">
-            <input type="submit" value="Register" />
-        </form>
-        <form action="/login" method="get">
-            <input type="submit" value="Login" />
-        </form>
-        <form action="/logout" method="get">
-        <input type="submit" value="Logout" />
-        </form>
-    </div>
-    <div>
+<% include ./partials/header %>
         <% courses.forEach((courses) => { %>
             <p>
                 <a href="/courses/<%= courses.id %>">
@@ -21,6 +7,4 @@
             </p>
             <% }) %>
     </div>
-</body>
-
-</html>
+    <% include ./partials/footer %>

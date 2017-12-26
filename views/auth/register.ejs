@@ -1,23 +1,10 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <form action="/register" method="post">
-        <label>Username</label>
-        <input type="text" name="username" />
-        <label>Email</label>
-        <input type="text" name="email" />
-        <label>Password</label>
-        <input type="password" name="password" />
-
-        <input type="submit" value="Register" />
-    </form>
-</body>
-
-</html>
+<% include ../partials/header %>
+        <div>
+            <form action='/register' method='POST'>
+                Email: <input type='text' name='email' /> <br />
+                Username: <input type='text' name='username' /> <br />
+                Password: <input type='password' name='password' /> <br />
+                <input type='submit' />
+            </form>
+        </div>
+<% include ../partials/footer %>

@@ -1,22 +1,21 @@
 const mongoose = require('mongoose');
-const PassLocalMongoose = require('passport-local-mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
 
-var userSchema = new mongoose.Schema({
+const UserSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
     image: {
         type: String,
-        default: 'http://via.placeholder.com/350x150'
+        default: 'http://via.placeholder.com/250x200'
     },
     email: {
         type: String,
-        required: [true, 'Email is missing'],
+        required: [true, 'Email missing'],
         unique: true
     },
     kind: {
         type: String,
-        enum: ['admin', 'teacher', 'student'],
-        default: 'student'
+        enum: ['admin', 'teacher', 'student']
     },
     isAdmin: {
         type: Boolean,
@@ -28,12 +27,16 @@ var userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true,
-        unique: true,
+        required: [true, 'Username missing'],
+        unique: true
     },
-    password: String
-})
+    password: String,
+    courses:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Courses'
+    }]
+});
 
-userSchema.plugin(PassLocalMongoose);
+UserSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', UserSchema);

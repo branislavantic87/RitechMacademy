@@ -1,11 +1,4 @@
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Course <%=result.name %> Edit</title>
-    </head>
-    <body>
+<% include ./partials/header %>
         <h2>Update course</h2>
         <form action="/courses/<%=result.id%>?_method=PUT" method="POST">
             <label for="name">Name:</label>
@@ -26,5 +19,5 @@
         <form action="/courses/<%=result._id%>?_method=DELETE" method="POST" style="display: inline">
             <input type="submit" value="DELETE">
         </form>
-    </body>
-    </html>
+
+    <% include ./partials/footer %>
