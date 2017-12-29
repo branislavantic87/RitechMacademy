@@ -11,6 +11,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 var app = express();
+// let busboy = require('connect-busboy')
+var fs = require('fs')
 
 
 // requiring routes
@@ -19,6 +21,8 @@ var users = require('./routes/users');
 var courses = require('./routes/courses');
 var auth = require('./routes/auth');
 var enroll = require('./routes/enroll');
+var carousel = require('./routes/carousels');
+var admin = require('./routes/admin')
 
 // mongoose setup
 mongoose.Promise = global.Promise;
@@ -35,6 +39,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/content', express.static(path.join(__dirname, 'content')));
 app.use(methodOverride('_method'));
 app.use(flash());
 
@@ -65,6 +70,24 @@ app.use('/users', users);
 app.use('/courses', courses);
 app.use(auth);
 app.use(enroll);
+app.use('/admin/carousel', carousel);
+app.use('/admin', admin)
+// app.use(busboy())
+
+// app.post('/carousel/new', function(req, res) {
+//   req.pipe(req.busboy);
+//   req.busboy.on('file', function(fieldname, file, filename) {
+//       console.log('Ovo je fildname: ' + fieldname);
+//       console.log('Ovo je file: ' + file);
+//       console.log('Ovo je filename: ' + filename);
+
+//       var fstream = fs.createWriteStream('./content/' + filename); 
+//       file.pipe(fstream);
+//       fstream.on('close', function () {
+//           res.send('upload succeeded!');
+//       });
+//   });
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

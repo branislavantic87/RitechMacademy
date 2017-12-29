@@ -30,7 +30,7 @@ const CourseSchema = new mongoose.Schema({
 
 CourseSchema.pre('remove', function (next) {
     console.log('AAAAAAAAAAaaa');
-    this.model('User').update({ courses: this._id }, { $pull: { courses: this._id } }, { multy: true }).exec();
+    this.model('User').update({ courses: this._id }, { $pull: { courses: this._id } }, { multi: true }).exec();
     next();
 })
 

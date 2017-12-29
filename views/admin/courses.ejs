@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+
+    <table border="2" width='100%'>
+        <tr>
+            <Th>Name</Th>
+            <Th>Code</Th>
+            <Th>Description</Th>
+            <Th>Teacher</Th>
+            <Th>Image</Th>
+            <th></th>
+            <th></th>
+        </tr>
+        
+            <% allCourses.forEach(e => { %>
+                <tr>
+                 <td><%= e.name %></td>
+                 <td><%= e.code %></td>
+                 <td><%= e.description %></td>
+                 <td><%= e.teacher %></td>  
+                 <td><%= e.image %></td>
+                 <td><form class="form-inline" action="/courses/<%= e.id %>/edit" method="get"><input type="submit" value="Edit" /></form></td>
+                 <td><form class="form-inline" action="/courses/<%=e.id%>?_method=DELETE" method="post" ><input type="submit" value="Delete"/></form></td>
+                </tr>
+                <% }) %>
+    </table>
+
+
+    <% include ../partials/footer %>
